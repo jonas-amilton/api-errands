@@ -27,4 +27,16 @@ export class Errands {
   public get type(): TypeErrands {
     return this._type;
   }
+
+  public set title(title: string) {
+    this._title = title;
+  }
+
+  public set description(description: string) {
+    this._description = description;
+  }
+
+  public set type(type: TypeErrands) {
+    this._type = type;
+  }
 }

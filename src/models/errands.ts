@@ -39,4 +39,12 @@ export class Errands {
   public set type(type: TypeErrands) {
     this._type = type;
   }
+
+  public toJsonE() {
+    return {
+      title: this._title,
+      description: this._description,
+      type: this._type,
+    };
+  }
 }

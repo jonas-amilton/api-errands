@@ -28,4 +28,12 @@ export class User {
   public set email(email: string) {
     this._email = email;
   }
+
+  public toJson() {
+    return {
+      id: this.id,
+      name: this._name,
+      email: this._email,
+    };
+  }
 }

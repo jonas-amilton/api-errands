@@ -20,4 +20,12 @@ export class User {
   public get errands(): Errands[] {
     return this._errands;
   }
+
+  public set name(name: string) {
+    this._name = name;
+  }
+
+  public set email(email: string) {
+    this._email = email;
+  }
 }

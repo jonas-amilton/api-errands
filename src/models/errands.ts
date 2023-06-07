@@ -15,4 +15,16 @@ export class Errands {
   ) {
     this.id = createUuid2();
   }
+
+  public get title(): string {
+    return this._title;
+  }
+
+  public get description(): string {
+    return this._title;
+  }
+
+  public get type(): TypeErrands {
+    return this._type;
+  }
 }

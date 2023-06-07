@@ -21,7 +21,7 @@ export class Errands {
   }
 
   public get description(): string {
-    return this._title;
+    return this._description;
   }
 
   public get type(): TypeErrands {

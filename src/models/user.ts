@@ -16,4 +16,8 @@ export class User {
   public get email(): string {
     return this._email;
   }
+
+  public get errands(): Errands[] {
+    return this._errands;
+  }
 }

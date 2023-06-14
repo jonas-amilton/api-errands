@@ -17,4 +17,24 @@ export class UserController {
       return ApiResponse.serverError(res, error);
     }
   }
+
+  public get(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+
+      const userFind = usersDb.find((u) => u.id === id);
+
+      if (!userFind) {
+        return ApiResponse.notFound(res, "Usuario");
+      }
+
+      return ApiResponse.success(
+        res,
+        "Usuario filtrado por id com sucesso!",
+        userFind.toJson()
+      );
+    } catch (error: any) {
+      return ApiResponse.serverError(res, error);
+    }
+  }
 }

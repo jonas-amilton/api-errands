@@ -100,4 +100,32 @@ export class ErrandsController {
       return ApiResponse.serverError(res, error);
     }
   }
+
+  public delete(req: Request, res: Response) {
+    try {
+      const { userid, errandid } = req.params;
+
+      const findUser = usersDb.find((u) => u.id === userid);
+
+      if (!findUser) {
+        return ApiResponse.notFound(res, "Usuario");
+      }
+
+      const findErrandId = findUser.errands.findIndex((i) => i.id === errandid);
+
+      if (findErrandId < 0) {
+        return ApiResponse.notFound(res, "recado");
+      }
+
+      const deleteErrand = findUser.errands.splice(findErrandId, 1);
+
+      return ApiResponse.success(
+        res,
+        "Recado deletado com sucesso",
+        deleteErrand[0].toJsonE()
+      );
+    } catch (error: any) {
+      return ApiResponse.serverError(res, error);
+    }
+  }
 }

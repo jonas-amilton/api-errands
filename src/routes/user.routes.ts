@@ -9,7 +9,7 @@ export const userRoutes = () => {
   app.get("/:id", new UserController().get);
   app.get("/", new UserController().list);
   app.delete("/:id", new UserController().delete);
-  //app.put("/:id", new UserController().update);
+  app.put("/:id", new UserController().update);
 
   app.use("/:userid/errands", errandsRoutes());
 

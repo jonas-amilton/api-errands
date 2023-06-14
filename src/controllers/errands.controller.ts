@@ -23,4 +23,30 @@ export class ErrandsController {
       return ApiResponse.serverError(res, error);
     }
   }
+
+  public get(req: Request, res: Response) {
+    try {
+      const { userid, errandid } = req.params;
+
+      const userFind = usersDb.find((u) => u.id === userid);
+
+      if (!userFind) {
+        return ApiResponse.notFound(res, "Usuario");
+      }
+
+      const findErrandUserId = userFind.errands.find((t) => t.id === errandid);
+
+      if (!findErrandUserId) {
+        return ApiResponse.notFound(res, "Recado");
+      }
+
+      return ApiResponse.success(
+        res,
+        "Recado criado com sucesso",
+        findErrandUserId.toJsonE()
+      );
+    } catch (error: any) {
+      return ApiResponse.serverError(res, error);
+    }
+  }
 }

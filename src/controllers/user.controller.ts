@@ -83,4 +83,37 @@ export class UserController {
       return ApiResponse.serverError(res, error);
     }
   }
+
+  public update(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const { name, password, email } = req.body;
+
+      const userFind = usersDb.find((u) => u.id === id);
+
+      if (!userFind) {
+        return ApiResponse.notFound(res, "ID");
+      }
+
+      if (name) {
+        userFind.name = name;
+      }
+
+      if (password) {
+        userFind.password = password;
+      }
+
+      if (email) {
+        userFind.email = email;
+      }
+
+      return ApiResponse.success(
+        res,
+        "usuario atualizado com sucesso!",
+        userFind.toJson()
+      );
+    } catch (error: any) {
+      return ApiResponse.serverError(res, error);
+    }
+  }
 }

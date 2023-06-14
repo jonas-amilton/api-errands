@@ -49,4 +49,55 @@ export class ErrandsController {
       return ApiResponse.serverError(res, error);
     }
   }
+
+  public list(req: Request, res: Response) {
+    try {
+      const { userid } = req.params;
+      const { type, title } = req.query;
+
+      const findUser = usersDb.find((u) => u.id === userid);
+
+      if (!findUser?.errands) {
+        return ApiResponse.notFound(
+          res,
+          `Recado do usuario ${findUser?.name} não encontrado!`
+        );
+      }
+
+      const errands = findUser.errands;
+
+      const findType = findUser.errands.filter((t) => t.type === type);
+
+      if (type) {
+        return ApiResponse.success(
+          res,
+          "Recado foi filtrado com sucesso pelo tipo",
+          findType
+        );
+      }
+
+      const findTitle = findUser.errands.filter((t) => t.title === title);
+
+      if (title) {
+        return ApiResponse.success(
+          res,
+          "Recado filtrado com sucesso pelo titulo",
+          findTitle
+        );
+      }
+
+      let publicErrands = errands.filter((t) => t.type === TypeErrands.Public);
+
+      let archivedErrands = errands.filter(
+        (t) => t.type === TypeErrands.Archived
+      );
+
+      return ApiResponse.success(res, "Transações listadas com sucesso", {
+        errands,
+        categoryErrands: { publicErrands, archivedErrands },
+      });
+    } catch (error: any) {
+      return ApiResponse.serverError(res, error);
+    }
+  }
 }

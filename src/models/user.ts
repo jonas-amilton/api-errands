@@ -4,7 +4,11 @@ import { Errands } from "./errands";
 export class User {
   public id: string;
   private _errands: Errands[];
-  constructor(private _name: string, private _email: string) {
+  constructor(
+    private _name: string,
+    private _email: string,
+    private _password: string
+  ) {
     this.id = createUuid2();
     this._errands = [];
   }
@@ -15,6 +19,10 @@ export class User {
 
   public get email(): string {
     return this._email;
+  }
+
+  public get password(): string {
+    return this._password;
   }
 
   public get errands(): Errands[] {
@@ -29,11 +37,14 @@ export class User {
     this._email = email;
   }
 
+  public set password(password: string) {
+    this._password = password;
+  }
+
   public toJson() {
     return {
       id: this.id,
       name: this._name,
-      email: this._email,
     };
   }
 }

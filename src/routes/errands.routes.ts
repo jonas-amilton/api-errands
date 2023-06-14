@@ -7,9 +7,9 @@ export const errandsRoutes = () => {
   });
 
   app.post("/", new ErrandsController().create);
-  // app.get("/:errandid", new ErrandsController().get);
-  // app.get("/", new ErrandsController().list);
-  // app.delete("/:errandid", new ErrandsController().delete);
-  // app.put("/:errandid", new ErrandsController().update);
+  app.get("/:errandid", new ErrandsController().get);
+  app.get("/", new ErrandsController().list);
+  app.delete("/:errandid", new ErrandsController().delete);
+  app.put("/:errandid", new ErrandsController().update);
   return app;
 };

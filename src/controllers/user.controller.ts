@@ -37,4 +37,28 @@ export class UserController {
       return ApiResponse.serverError(res, error);
     }
   }
+
+  public list(req: Request, res: Response) {
+    try {
+      const { name, email } = req.query;
+
+      let result = usersDb;
+
+      if (name) {
+        result = usersDb.filter((u) => u.name === name);
+      }
+
+      if (email) {
+        result = usersDb.filter((u) => u.email === email);
+      }
+
+      return ApiResponse.success(
+        res,
+        "Lista de usuarios",
+        result.map((u) => u.toJson())
+      );
+    } catch (error: any) {
+      return ApiResponse.serverError(res, error);
+    }
+  }
 }

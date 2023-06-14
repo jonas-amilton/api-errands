@@ -61,4 +61,26 @@ export class UserController {
       return ApiResponse.serverError(res, error);
     }
   }
+
+  public delete(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+
+      const userIndex = usersDb.findIndex((u) => u.id === id);
+
+      if (userIndex < 0) {
+        return ApiResponse.notFound(res, "User not found");
+      }
+
+      const deleteUser = usersDb.splice(userIndex, 1);
+
+      return ApiResponse.success(
+        res,
+        "Usuario deletado com sucesso",
+        deleteUser[0].toJson()
+      );
+    } catch (error: any) {
+      return ApiResponse.serverError(res, error);
+    }
+  }
 }

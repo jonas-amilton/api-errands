@@ -29,4 +29,11 @@ export class ApiResponse {
       data,
     });
   }
+
+  public static badGateway(res: Response, error: any) {
+    return res.status(502).send({
+      ok: false,
+      message: error.toString(),
+    });
+  }
 }

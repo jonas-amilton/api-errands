@@ -6,6 +6,7 @@ export const userRoutes = () => {
   const app = Router();
 
   app.post("/", new UserController().create);
+  app.post("/login", new UserController().login);
   app.get("/:id", new UserController().get);
   app.get("/", new UserController().list);
   app.delete("/:id", new UserController().delete);

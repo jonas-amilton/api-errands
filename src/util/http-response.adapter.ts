@@ -22,6 +22,13 @@ export class ApiResponse {
     });
   }
 
+  public static unauthorized(res: Response, entity: string) {
+    return res.status(401).send({
+      ok: false,
+      message: `${entity} não autorizado.`,
+    });
+  }
+
   public static success(res: Response, message: string, data: any) {
     return res.status(200).send({
       ok: true,

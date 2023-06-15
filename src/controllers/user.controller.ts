@@ -116,4 +116,32 @@ export class UserController {
       return ApiResponse.serverError(res, error);
     }
   }
+
+  public login(req: Request, res: Response) {
+    try {
+      const { email, password } = req.body;
+
+      if (!email) {
+        return ApiResponse.notFound(res, "Email invalido");
+      }
+
+      if (!password) {
+        return ApiResponse.notFound(res, "Senha invalida");
+      }
+
+      const user = usersDb.find((u) => u.email);
+
+      if (!user) {
+        return ApiResponse.notFound(res, "não encontrado");
+      }
+
+      if (user.password != password) {
+        return ApiResponse.unauthorized(res, "não autorizado");
+      }
+
+      return ApiResponse.success(res, "Login foi um sucesso", user.toJson());
+    } catch (error: any) {
+      return ApiResponse.badGateway(res, error);
+    }
+  }
 }

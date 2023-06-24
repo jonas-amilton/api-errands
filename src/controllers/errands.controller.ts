@@ -60,7 +60,7 @@ export class ErrandsController {
       if (!findUser?.errands) {
         return ApiResponse.notFound(
           res,
-          `Recado do usuario ${findUser?.name} não encontrado!`
+          `Recado do usuario cadastrado no e-mail ${findUser?.email} não encontrado!`
         );
       }
 
@@ -92,7 +92,7 @@ export class ErrandsController {
         (t) => t.type === TypeErrands.Archived
       );
 
-      return ApiResponse.success(res, "Transações listadas com sucesso", {
+      return ApiResponse.success(res, "Recados listados com sucesso", {
         errands,
         categoryErrands: { publicErrands, archivedErrands },
       });

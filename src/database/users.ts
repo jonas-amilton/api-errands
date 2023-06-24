@@ -1,5 +1,3 @@
 import { User } from "../models/user";
 
-export const usersDb: User[] = [
-  new User("Jonas", "jonas@teste.com.br", "123456"),
-];
+export const usersDb: User[] = [new User("jonas@teste.com.br", "123456")];

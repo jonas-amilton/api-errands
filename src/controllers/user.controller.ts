@@ -6,9 +6,9 @@ import { ApiResponse } from "../util/http-response.adapter";
 export class UserController {
   public create(req: Request, res: Response) {
     try {
-      const { name, password, email } = req.body;
+      const { password, email } = req.body;
 
-      const user = new User(name, email, password);
+      const user = new User(email, password);
 
       usersDb.push(user);
 
@@ -40,13 +40,9 @@ export class UserController {
 
   public list(req: Request, res: Response) {
     try {
-      const { name, email } = req.query;
+      const { email } = req.query;
 
       let result = usersDb;
-
-      if (name) {
-        result = usersDb.filter((u) => u.name === name);
-      }
 
       if (email) {
         result = usersDb.filter((u) => u.email === email);
@@ -87,16 +83,12 @@ export class UserController {
   public update(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const { name, password, email } = req.body;
+      const { password, email } = req.body;
 
       const userFind = usersDb.find((u) => u.id === id);
 
       if (!userFind) {
         return ApiResponse.notFound(res, "ID");
-      }
-
-      if (name) {
-        userFind.name = name;
       }
 
       if (password) {

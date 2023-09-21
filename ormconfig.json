@@ -1,0 +1,11 @@
+{
+  "type": "sqlite",
+  "database": "./sqlite3",
+  "synchronize": true,
+  "entities": ["src/app/shared/database/entities/*.ts"],
+  "migrations": ["src/app/shared/database/migrations/*.ts"],
+  "cli": {
+    "entitiesDir": "src/app/shared/database/entities",
+    "migrationsDir": "src/app/shared/database/migrations"
+  }
+}

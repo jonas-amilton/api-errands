@@ -9,7 +9,7 @@ export class UserModel {
   constructor(
     private _name: string,
     private _email: string,
-    private _password: string,
+    private _password: string
   ) {
     this.id = createUuid();
     this._errands = [];
@@ -23,11 +23,9 @@ export class UserModel {
     return this._email;
   }
 
-  
-  public get password() : string {
-    return this._password
+  public get password(): string {
+    return this._password;
   }
-  
 
   public get errand(): ErrandModel[] {
     return this._errands;
@@ -41,11 +39,9 @@ export class UserModel {
     this._email = email;
   }
 
-  
-  public set password(password : string) {
+  public set password(password: string) {
     this._password = password;
   }
-  
 
   public toJson() {
     return {
@@ -57,14 +53,7 @@ export class UserModel {
     };
   }
 
-  public static create(params: UserEntity) {
-    // Cria um novo objeto User usando os valores da entidade UserEntity.
-    const createUser = new UserModel(params.name, params.email, params.password);
-
-    // Atribui o ID da entidade UserEntity ao novo objeto User.
-    createUser.id = params.id;
-
-    // Retorna o novo objeto User.
-    return createUser;
+  static create(name: string, email: string, password: string, id?: string) {
+    return new UserModel(name, email, password);
   }
 }

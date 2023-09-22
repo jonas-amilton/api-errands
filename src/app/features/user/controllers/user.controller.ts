@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { UserModel } from "../models/user.model";
-import { usersDb } from "../database/users.db";
-import { ApiResponse } from "../util/http-response.adapter";
+import { UserModel } from "../../../models/index";
+import { usersDb } from "../../../shared/database/users.db";
+import { ApiResponse } from "../../../shared/util/http-response.adapter";
 
 export class UserController {
   public create(req: Request, res: Response) {

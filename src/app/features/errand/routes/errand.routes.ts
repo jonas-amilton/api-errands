@@ -1,8 +1,6 @@
 import { Router } from "express";
-import { UserController } from "../controllers/user.controller";
-import { userCheck } from "../middlewares/user.middleware";
 import { ErrandController } from "../controllers/errand.controller";
-import { errandCheck } from "../middlewares/errand.middleware";
+import { errandCheck } from "../../../shared/middlewares/index";
 
 export const errandRoutes = () => {
   const app = Router({ mergeParams: true });

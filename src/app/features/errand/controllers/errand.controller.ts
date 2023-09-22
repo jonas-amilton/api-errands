@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { ApiResponse } from "../util/http-response.adapter";
-import { usersDb } from "../database/users.db";
-import { ErrandModel, TypeErrand } from "../models/errand.model";
-import { errandsDb } from "../database/errandsDb";
+import { ApiResponse } from "../../../shared/util/http-response.adapter";
+import { usersDb } from "../../../shared/database/users.db";
+import { ErrandModel, TypeErrand } from "../../../models/index";
+import { errandsDb } from "../../../shared/database/errandsDb";
 
 export class ErrandController {
   public create(req: Request, res: Response) {

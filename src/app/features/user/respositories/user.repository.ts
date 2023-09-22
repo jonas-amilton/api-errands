@@ -69,12 +69,18 @@ export class UserRepository {
     return UserRepository.mapRowToModel(result);
   }
 
+  async checkValidEmail(email: string): Promise<boolean> {
+    const response = await this._repository.exist({where:{email}});
+
+    return response;
+}
+
   public static mapRowToModel(user?: UserEntity | null) {
     if (!user) {
       return undefined;
     }
 
-    return UserModel.create(user);
+    return UserModel.create(user.name, user.email, user.password);
   }
 }
 

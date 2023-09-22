@@ -13,7 +13,8 @@ export class ErrandModel {
     private _description: string,
     private _type: TypeErrand
   ) {
-    this._id = createUuid();  }
+    this._id = createUuid();  
+  }
 
   public get title(): string {
     return this._title;

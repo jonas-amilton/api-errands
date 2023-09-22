@@ -75,13 +75,6 @@ public async update(key: ErrandModel) {
   );
 }
 
-
-
-
-// Converte uma linha da entidade 'ErrandEntity' em um objeto 'Errands'
-// private mapRowToModel(row: ErrandEntity) {
-//   return Errands.create(row);
-// }
 }
 
 // Copyright [Jonas Silva]

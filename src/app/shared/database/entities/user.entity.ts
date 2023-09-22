@@ -1,7 +1,8 @@
 import { Column, Entity, OneToMany } from "typeorm";
 
 // Importa a entidade ErrandEntity, que representa os recados relacionados ao usuário.
-import { ErrandEntity, BaseEntity } from "./index";
+import { ErrandEntity } from "./errand.entity";
+import { BaseEntity } from "./base.entity";
 
 /**
  * Define a entidade "users" que será mapeada no banco de dados.

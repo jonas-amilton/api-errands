@@ -1,14 +1,13 @@
-import express, { Request, Response } from "express";
-import { userRoutes } from "./app/features/user/routes/user.routes";
-import * as dotenv from "dotenv";
+import "reflect-metadata";
+import { Database, CacheDatabase } from "./main/database/index";
+import { Server } from "./main/server/express.server";
 
-dotenv.config();
 
-const app = express();
-app.use(express.json());
-
-app.use("/users", userRoutes());
-
-app.listen(process.env.PORT, () => {
-  console.log("API is running...", process.env.PORT);
+// Aguarda a resolução de todas as promessas (conexões com bancos) antes de iniciar o servidor
+Promise.all([Database.connect(), CacheDatabase.connect()]).then(() => {
+    Server.listen();
+    console.log("Server is running.");
 });
+
+
+// Copyright [Jonas Silva]

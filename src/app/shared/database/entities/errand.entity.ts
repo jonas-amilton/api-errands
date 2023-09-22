@@ -1,9 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 
 // Importa a entidade UserEntity, que será usada para estabelecer a relação Many-to-One com os usuários.
-import { UserEntity } from "./user.entity";
-import { TypeErrand } from "../../../models";
-import { BaseEntity } from "./base.entity";
+import { UserEntity, BaseEntity } from "./index";
+import { TypeErrand } from "../../../models/index";
 
 /**
  * Define a entidade "errands" que será mapeada no banco de dados.

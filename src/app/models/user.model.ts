@@ -1,4 +1,5 @@
-import { ErrandModel } from "./errand.model";
+import { UserEntity } from "../shared/database/entities/index";
+import { ErrandModel } from "./index";
 import { v4 as createUuid } from "uuid";
 
 export class UserModel {
@@ -54,5 +55,16 @@ export class UserModel {
       password: this._password,
       errands: this._errands,
     };
+  }
+
+  public static create(params: UserEntity) {
+    // Cria um novo objeto User usando os valores da entidade UserEntity.
+    const createUser = new UserModel(params.name, params.email, params.password);
+
+    // Atribui o ID da entidade UserEntity ao novo objeto User.
+    createUser.id = params.id;
+
+    // Retorna o novo objeto User.
+    return createUser;
   }
 }

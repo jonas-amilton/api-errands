@@ -7,6 +7,8 @@ export const errandRoutes = () => {
 
   app.post("/", [errandCheck], new ErrandController().create);
   app.get("/:errandId", new ErrandController().getById);
+
+  // todo: rota de listar pelo tipo ainda deve ser implementada
   app.get("/", new ErrandController().list);
   app.delete("/:errandId", new ErrandController().delete);
   app.put("/:errandId", new ErrandController().update);

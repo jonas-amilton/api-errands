@@ -59,10 +59,10 @@ export class ErrandController {
         );
       }
 
-      const findType = findIdUser.errand.filter((t) => t.type === type);
-      if (type) {
-        return ApiResponse.success(res, "Recado filtrado por tipo!", findType);
-      }
+      // const findType = findIdUser.errand.filter((t) => t.type === type);
+      // if (type) {
+      //   return ApiResponse.success(res, "Recado filtrado por tipo!", findType);
+      // }
 
       const findTitle = findIdUser.errand.filter((t) => t.title === type);
       if (title) {
@@ -131,9 +131,9 @@ export class ErrandController {
         findIdErrand.title = title;
       }
 
-      if (type) {
-        findIdErrand.type = type;
-      }
+      // if (type) {
+      //   findIdErrand.type = type;
+      // }
 
       if (description) {
         findIdErrand.description = description;

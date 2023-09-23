@@ -9,23 +9,31 @@ interface IErrandUpdateParams {
 }
 
 export class ErrandRepository {
-  private _repository =
-  Database.connection.getRepository(ErrandEntity);
+  private _repository = Database.connection.getRepository(ErrandEntity);
 
-    private toModel({
-        title,
-        description,
-        userId,
-        id
-    }: ErrandEntity): ErrandModel {
-        return ErrandModel.create(title, description, userId, id);
-    }
+  private toModel({
+    title,
+    description,
+    userId,
+    id,
+  }: ErrandEntity): ErrandModel {
+    return ErrandModel.create(title, description, userId, id);
+  }
 
-    async addErrand(errand: ErrandModel): Promise<ErrandModel> {
-        const newErrand =this._repository.create(errand);
-        
-        const response = await this._repository.save(newErrand);
-        
-        return this.toModel(response);
-    }
+  async addErrand(errand: ErrandModel): Promise<ErrandModel> {
+    const newErrand = this._repository.create(errand);
+
+    const response = await this._repository.save(newErrand);
+
+    return this.toModel(response);
+  }
+
+  async getErrandsById(userId: string): Promise<ErrandEntity[]> {
+    const response = await this._repository.find({
+      where: { userId },
+    });
+  
+    return response;
+  }
+  
 }

@@ -16,12 +16,12 @@ export class GetUserErrandsUseCase {
 			if (cache) {
 				return cache;
 			}
-			const response = await this._repository.getErrandById(userId);
+			const response = await this._repository.getErrandsById(userId);
 
 			return response;
 		}
 
-		const response = await this._repository.getErrandById(userId);
+		const response = await this._repository.getErrandsById(userId);
 
 		return response;
     }

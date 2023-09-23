@@ -5,6 +5,7 @@ import { ErrandModel } from "../../../models/index";
 import { errandsDb } from "../../../shared/database/errandsDb";
 import { ErrandRepository } from "../repositories/errands.repository";
 import { CreateErrandUseCase } from "../usecase/create-errand.usecase";
+import { GetUserErrandsUseCase } from "../usecase/get-user-errands.usecase";
 
 export class ErrandController {
   public async create(req: Request, res: Response) {
@@ -21,25 +22,18 @@ export class ErrandController {
     }
   }
 
-  public get(req: Request, res: Response) {
+  public async getById(req: Request, res: Response) {
     try {
-      const { userId, errandId } = req.params;
+      const { userId } = req.params;
 
-      const findIdUser = usersDb.find((user) => user.id === userId);
-      if (!findIdUser) {
-        return ApiResponse.notFound(res, "Usuario");
-      }
-      const findIdErrand = findIdUser.errand.find(
-        (item) => item.id === errandId
-      );
-      if (!findIdErrand) {
-        return ApiResponse.notFound(res, "Recado");
-      }
+      const usecase = new GetUserErrandsUseCase(new ErrandRepository());
+      const result = await usecase.execute(userId);
+
 
       return ApiResponse.success(
         res,
-        "Recado filtrado por id com sucesso!",
-        findIdErrand.toJsonE()
+        "Recados listados com sucesso pelo ID",
+        result
       );
     } catch (error: any) {
       return ApiResponse.serverError(res, error);

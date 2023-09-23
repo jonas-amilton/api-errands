@@ -3,6 +3,13 @@ import { Database } from "../../../../main/database/index";
 import { UserModel } from "../../../models/index";
 import { UserEntity } from "../../../shared/database/entities/user.entity";
 
+
+interface IErrandUpdateParams {
+  name?: string,
+  email?: string,
+  password?: string
+}
+
 /**
  * Repositório responsável por interagir com a base de dados e manipular entidades de usuário.
  * @class UserRepository
@@ -16,6 +23,9 @@ import { UserEntity } from "../../../shared/database/entities/user.entity";
  * @async Este código é assíncrono.
  * @author Jonas Silva
  */
+
+
+
 export class UserRepository {
   private _repository = Database.connection.getRepository(UserEntity);
 
@@ -31,14 +41,25 @@ export class UserRepository {
     return UserRepository.mapRowToModel(result);
   }
 
-  public async updateUser(user: UserEntity) {
-    const result = await this._repository.update(
-      { name: user.name,
-        email: user.email },
-      { password: user.password }
-    );
-    return result;
+  public async updateUser(id: string, title?: string, email?: string, password?: string) {
+    const data: IErrandUpdateParams = {};
+    
+    if(title) {
+        data['name'] = title;
+    }
+        
+    if(email) {
+        data['email'] = email;
+    }
+
+    if(password) {
+      data['password'] = password;
   }
+    
+    const response = await this._repository.update(id, data);
+
+    return response;
+}
 
   public async deleteUser(id: string) {
     const result = await this._repository.delete(id);
@@ -58,6 +79,12 @@ export class UserRepository {
     const result = await this._repository.find();
     return result.map((entity) => UserRepository.mapRowToModel(entity));
   }
+
+  async getUserById(id: string) {
+		const response = await this._repository.findOne({ where: { id } });
+
+		return response;
+	}
 
   public async getUserByPassword(password: string) {
     const result = await this._repository.findOne({ where: { password } });

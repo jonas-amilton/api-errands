@@ -22,10 +22,11 @@ export class ApiResponse {
     });
   }
 
-  public static success(res: Response, message: string, data: any) {
+  public static success(res: Response, message: string, data?: any) {
     return res.status(200).send({
       ok: true,
       message,
+      //data só sera usado para testes, nao é obrigatorio
       data,
     });
   }

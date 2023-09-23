@@ -2,114 +2,78 @@ import { Request, Response } from "express";
 import { UserModel } from "../../../models/index";
 import { usersDb } from "../../../shared/database/users.db";
 import { ApiResponse } from "../../../shared/util/http-response.adapter";
+import { CreateUserUseCase, GetUsersUseCase } from "../usecase";
+import { UserRepository } from "../respositories/user.repository";
 
+
+
+//todo: refatorar o controller apos usecase
 export class UserController {
-  public create(req: Request, res: Response) {
+  public async create(req: Request, res: Response) {
     try {
       const { name, email, password } = req.body;
 
-      const user = new UserModel(name, email, password);
-      usersDb.push(user);
-      return ApiResponse.success(res, "Usuario criado com sucesso!", user);
+      const useCase = new CreateUserUseCase(new UserRepository());
+
+      const response = await useCase.execute(name, email, password);
+
+      return ApiResponse.success(res, "Usuario criado com sucesso!", response);
     } catch (error: any) {
       return ApiResponse.serverError(res, error);
     }
   }
 
-  public get(req: Request, res: Response) {
+  public async getById(req: Request, res: Response) {
     try {
-      const { id } = req.params;
+      const userId = req.params.id;
+      const userRepository = new UserRepository();
 
-      const result = usersDb.find((user) => user.id === id);
+      const user = await userRepository.getUserById(userId);
 
-      if (!result) {
-        return ApiResponse.notFound(res, "Usuario");
+      if (!user) {
+        return ApiResponse.notFound(res, "Usuário não encontrado");
       }
 
-      return ApiResponse.success(
-        res,
-        "Usuario filtrado por id com sucesso!",
-        result.toJson()
-      );
+      await userRepository.getUserById(userId);
+
+      return ApiResponse.success(res, "Usuarios listados com sucesso!", user);
     } catch (error: any) {
       return ApiResponse.serverError(res, error);
     }
   }
 
-  public list(req: Request, res: Response) {
+  public async delete(req: Request, res: Response) {
     try {
-      const { name, email } = req.query;
+      const userId = req.params.id;
+      const userRepository = new UserRepository();
 
-      let result = usersDb;
+      const user = await userRepository.getUserById(userId);
 
-      if (name) {
-        result = usersDb.filter((user) => user.name === name);
+      if (!user) {
+        return ApiResponse.notFound(res, "Usuário não encontrado");
       }
 
-      if (email) {
-        result = usersDb.filter((user) => user.email === email);
-      }
+      await userRepository.deleteUser(userId);
 
-      return ApiResponse.success(
-        res,
-        "Lista de usuarios",
-        result.map((users) => users.toJson())
-      );
+      return ApiResponse.success(res, "Usuário deletado com sucesso", user);
     } catch (error: any) {
       return ApiResponse.serverError(res, error);
     }
   }
-
-  public delete(req: Request, res: Response) {
+  public async update(req: Request, res: Response) {
     try {
-      const { id } = req.params;
-
-      const userIndex = usersDb.findIndex((user) => user.id === id);
-
-      if (userIndex < 0) {
-        return ApiResponse.notFound(res, "Id");
-      }
-
-      const deleteUser = usersDb.splice(userIndex, 1);
-
-      return ApiResponse.success(
-        res,
-        "Usuario deletado com sucesso",
-        deleteUser[0].toJson()
-      );
-    } catch (error: any) {
-      return ApiResponse.serverError(res, error);
-    }
-  }
-
-  public update(req: Request, res: Response) {
-    try {
-      const { id } = req.params;
+      const userId = req.params.id;
       const { name, email, password } = req.body;
 
-      const userFind = usersDb.find((user) => user.id === id);
+      const userRepository = new UserRepository();
 
-      if (!userFind) {
-        return ApiResponse.notFound(res, "Id");
+      const updatedUser = await userRepository.updateUser(userId, name, email, password);
+
+      if (!updatedUser) {
+        return ApiResponse.notFound(res, "Usuário não encontrado");
       }
 
-      if (name) {
-        userFind.name = name;
-      }
-
-      if (email) {
-        userFind.email = email;
-      }
-
-      if (password) {
-        userFind.password = password;
-      }
-
-      return ApiResponse.success(
-        res,
-        "Usuario atualizado com sucesso!",
-        userFind.toJson()
-      );
+      return ApiResponse.success(res, "Usuário atualizado com sucesso!");
     } catch (error: any) {
       return ApiResponse.serverError(res, error);
     }

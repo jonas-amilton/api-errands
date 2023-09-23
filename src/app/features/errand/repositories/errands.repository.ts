@@ -16,10 +16,9 @@ export class ErrandRepository {
         title,
         description,
         userId,
-        id,
-        type,
+        id
     }: ErrandEntity): ErrandModel {
-        return ErrandModel.create(title, description, userId, id, type);
+        return ErrandModel.create(title, description, userId, id);
     }
 
     async addErrand(errand: ErrandModel): Promise<ErrandModel> {

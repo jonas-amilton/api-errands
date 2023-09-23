@@ -1,4 +1,3 @@
-import { UserEntity } from "../shared/database/entities/user.entity";
 import { ErrandModel } from "./index";
 import { v4 as createUuid } from "uuid";
 

@@ -80,7 +80,7 @@ export class UserRepository {
     return result.map((entity) => UserRepository.mapRowToModel(entity));
   }
 
-  async getUserById(id: string) {
+  public async getUserById(id: string) {
 		const response = await this._repository.findOne({ where: { id } });
 
 		return response;
@@ -95,6 +95,12 @@ export class UserRepository {
 
     return UserRepository.mapRowToModel(result);
   }
+
+  async checkUserId(userId: string) {
+    const response = await this._repository.findOne({where:{id: userId}});
+            
+    return response;
+}
 
   async checkValidEmail(email: string): Promise<boolean> {
     const response = await this._repository.exist({where:{email}});

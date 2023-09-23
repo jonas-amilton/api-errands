@@ -2,7 +2,6 @@ import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 
 // Importa a entidade UserEntity, que será usada para estabelecer a relação Many-to-One com os usuários.
 import { UserEntity } from "./user.entity";
-import { TypeErrand } from "../../../models/index";
 import {BaseEntity} from './base.entity'
 
 /**
@@ -16,10 +15,10 @@ import {BaseEntity} from './base.entity'
 export class ErrandEntity extends BaseEntity {
   /**
    * ID do usuário associado ao recado.
-   * @property {string} idUser
+   * @property {string} userId
    */
   @Column({ name: "id_user" })
-  idUser!: string;
+  userId!: string;
 
   /**
    * Título do recado.
@@ -35,12 +34,6 @@ export class ErrandEntity extends BaseEntity {
   @Column()
   description!: string;
 
-  /**
-   * Tipo do recado (Public ou Archived) representado pelo enum ErrandType.
-   * @property {TypeErrand} type
-   */
-  @Column({ type: "varchar", length: 1, enum: TypeErrand })
-  type: TypeErrand;
 
   /**
    * Relação Many-to-One com a entidade UserEntity.
@@ -48,7 +41,7 @@ export class ErrandEntity extends BaseEntity {
    * @property {UserEntity} user
    */
   @ManyToOne(() => UserEntity, (entity) => entity.errands)
-  @JoinColumn({ name: "id_usuario", referencedColumnName: "id" })
+  @JoinColumn({ name: "id_user", referencedColumnName: "id" })
   user!: UserEntity;
 }
 

@@ -16,16 +16,16 @@ export const errandCheck = (
     return ApiResponse.notProvided(res, "Description");
   }
 
-  if (!type) {
-    return ApiResponse.notProvided(res, "Tipo");
-  }
+  // if (!type) {
+  //   return ApiResponse.notProvided(res, "Tipo");
+  // }
 
-  if (type !== "A" && type !== "P") {
-    return ApiResponse.notFound(
-      res,
-      "Tipo de recado invalido! (Arquivado ou Publico)"
-    );
-  }
+  // if (type !== "A" && type !== "P") {
+  //   return ApiResponse.notFound(
+  //     res,
+  //     "Tipo de recado invalido! (Arquivado ou Publico)"
+  //   );
+  // }
 
   next();
 };

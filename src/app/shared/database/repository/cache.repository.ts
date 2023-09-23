@@ -65,7 +65,7 @@ private repositoryDatabase = Database.connection.getRepository(ErrandEntity);
 public async update(key: ErrandModel) {
   await this.repositoryDatabase.update(
     {
-      id: key._id,
+      id: key.id,
     },
     {
       type: key.type,

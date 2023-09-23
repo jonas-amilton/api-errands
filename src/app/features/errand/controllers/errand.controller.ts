@@ -1,31 +1,21 @@
 import { Request, Response } from "express";
 import { ApiResponse } from "../../../shared/util/http-response.adapter";
 import { usersDb } from "../../../shared/database/users.db";
-import { ErrandModel, TypeErrand } from "../../../models/index";
+import { ErrandModel } from "../../../models/index";
 import { errandsDb } from "../../../shared/database/errandsDb";
+import { ErrandRepository } from "../repositories/errands.repository";
+import { CreateErrandUseCase } from "../usecase/create-errand.usecase";
 
 export class ErrandController {
-  public create(req: Request, res: Response) {
+  public async create(req: Request, res: Response) {
     try {
-      const { userId } = req.params;
-      const { title, description, type } = req.body;
+      const { title, description, userId } = req.body;
 
-      const findUser = usersDb.find((user) => user.id === userId);
-      if (!findUser) {
-        return ApiResponse.notFound(res, "Usuario");
-      }
+      const useCase = new CreateErrandUseCase(new ErrandRepository());
 
-      const errand = new ErrandModel(title, description, type);
-      
-      findUser.errand.push(errand);
-      console.log(findUser);
+      await useCase.execute(title, description, userId);
 
-      return ApiResponse.success(
-        res,
-        "Sucesso!",
-        findUser.errand.map((user) => user.toJsonE())
-      );
-
+      return ApiResponse.success(res, "Sucesso");
     } catch (error: any) {
       return ApiResponse.serverError(res, error);
     }
@@ -40,7 +30,7 @@ export class ErrandController {
         return ApiResponse.notFound(res, "Usuario");
       }
       const findIdErrand = findIdUser.errand.find(
-        (item) => item._id === errandId
+        (item) => item.id === errandId
       );
       if (!findIdErrand) {
         return ApiResponse.notFound(res, "Recado");
@@ -69,20 +59,12 @@ export class ErrandController {
         );
       }
 
-      const findType = findIdUser.errand.filter(
-        (t) => t.type === type
-      );
+      const findType = findIdUser.errand.filter((t) => t.type === type);
       if (type) {
-        return ApiResponse.success(
-          res,
-          "Recado filtrado por tipo!",
-          findType
-        );
+        return ApiResponse.success(res, "Recado filtrado por tipo!", findType);
       }
 
-      const findTitle = findIdUser.errand.filter(
-        (t) => t.title === type
-      );
+      const findTitle = findIdUser.errand.filter((t) => t.title === type);
       if (title) {
         return ApiResponse.success(
           res,
@@ -91,17 +73,11 @@ export class ErrandController {
         );
       }
 
-      let archivedErrand = findIdUser.errand
-        .filter((t) => t.type === TypeErrand.Archived);
-
-      let publicErrand = findIdUser.errand
-        .filter((t) => t.type === TypeErrand.Public)
 
       let errandList = findIdUser.errand;
 
       return ApiResponse.success(res, "Recados listadas com sucesso", {
-        errandList,
-        type: { archivedErrand, publicErrand},
+        errandList
       });
     } catch (error: any) {
       return ApiResponse.serverError(res, error);
@@ -117,16 +93,13 @@ export class ErrandController {
       }
 
       const findIdErrand = findIdUser.errand.findIndex(
-        (item) => item._id === errandId
+        (item) => item.id === errandId
       );
       if (findIdErrand < 0) {
         return ApiResponse.notFound(res, "Recado");
       }
 
-      const deleteErrand = findIdUser.errand.splice(
-        findIdErrand,
-        1
-      );
+      const deleteErrand = findIdUser.errand.splice(findIdErrand, 1);
       return ApiResponse.success(
         res,
         "Recado deletado",
@@ -148,7 +121,7 @@ export class ErrandController {
       }
 
       const findIdErrand = findIdUser.errand.find(
-        (item) => item._id === errandId
+        (item) => item.id === errandId
       );
       if (!findIdErrand) {
         return ApiResponse.notFound(res, "Recado");

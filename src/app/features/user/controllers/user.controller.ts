@@ -60,6 +60,8 @@ export class UserController {
       return ApiResponse.serverError(res, error);
     }
   }
+
+  
   public async update(req: Request, res: Response) {
     try {
       const userId = req.params.id;

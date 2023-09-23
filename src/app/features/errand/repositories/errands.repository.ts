@@ -32,8 +32,20 @@ export class ErrandRepository {
     const response = await this._repository.find({
       where: { userId },
     });
-  
+
     return response;
   }
-  
+
+  async deleteErrand(userId: string) {
+    const response = await this._repository.delete(userId);
+    return response.affected ?? undefined;
+  }
+
+  async checkErrandId(errandId: string) {
+    const response = await this._repository.findOne({
+      where: { id: errandId },
+    });
+
+    return response;
+  }
 }

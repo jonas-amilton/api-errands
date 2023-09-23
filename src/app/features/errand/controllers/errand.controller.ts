@@ -6,6 +6,7 @@ import { errandsDb } from "../../../shared/database/errandsDb";
 import { ErrandRepository } from "../repositories/errands.repository";
 import { CreateErrandUseCase } from "../usecase/create-errand.usecase";
 import { GetUserErrandsUseCase } from "../usecase/get-user-errands.usecase";
+import { DeleteErrandUseCase } from "../usecase/delete-errand.usecase";
 
 export class ErrandController {
   public async create(req: Request, res: Response) {
@@ -78,27 +79,21 @@ export class ErrandController {
     }
   }
 
-  public delete(req: Request, res: Response) {
+  public async delete(req: Request, res: Response) {
     try {
-      const { userId, errandId } = req.params;
-      const findIdUser = usersDb.find((user) => user.id === userId);
-      if (!findIdUser) {
-        return ApiResponse.notFound(res, "Usuario");
+        const { errandId } = req.params;
+
+      const errandRepository = new ErrandRepository();
+
+      const errand = await errandRepository.getErrandsById(errandId);
+
+      if (!errand) {
+        return ApiResponse.notFound(res, "Recado não encontrado");
       }
 
-      const findIdErrand = findIdUser.errand.findIndex(
-        (item) => item.id === errandId
-      );
-      if (findIdErrand < 0) {
-        return ApiResponse.notFound(res, "Recado");
-      }
+      await errandRepository.deleteErrand(errandId);
 
-      const deleteErrand = findIdUser.errand.splice(findIdErrand, 1);
-      return ApiResponse.success(
-        res,
-        "Recado deletado",
-        deleteErrand[0].toJsonE()
-      );
+      return ApiResponse.success(res, "Recado deletado com sucesso");
     } catch (error: any) {
       return ApiResponse.serverError(res, error);
     }

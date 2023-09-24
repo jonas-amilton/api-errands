@@ -10,13 +10,21 @@ export class ErrandController {
     try {
       const { title, description, userId } = req.body;
 
+      if(!title){
+        ApiResponse.notProvided(res, title)
+      }
+
+      if(!description){
+        ApiResponse.notProvided(res, description)
+      }
+
       const useCase = new CreateErrandUseCase(new ErrandRepository());
 
       await useCase.execute(title, description, userId);
 
       return ApiResponse.success(res, "Sucesso");
     } catch (error: any) {
-      return ApiResponse.serverError(res, error);
+      return ApiResponse.notProvided(res, error);
     }
   }
 

@@ -8,9 +8,9 @@ export const userRoutes = () => {
 
   //todo: todas as rotas foram testadas no postman e funcionam com sucesso
   app.post("/", [userCheck], new UserController().create);
-  app.get("/:id", new UserController().getById);
-  app.delete("/:id", new UserController().delete);
-  app.put("/:id", new UserController().update);
+  app.get("/:userId", new UserController().getById);
+  app.delete("/:userId", new UserController().delete);
+  app.put("/:userId", new UserController().update);
 
   app.use("/:userId/errands", errandRoutes());
 

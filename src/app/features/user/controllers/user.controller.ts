@@ -77,6 +77,18 @@ export class UserController {
       const userId = req.params.id;
       const { name, email, password } = req.body;
 
+      if(!name){
+        ApiResponse.notProvided(res, name)
+      }
+
+      if(!email){
+        ApiResponse.notProvided(res, email)
+      }
+
+      if(!password){
+        ApiResponse.notProvided(res, password)
+      }
+
       const userRepository = new UserRepository();
 
       const updatedUser = await userRepository.updateUser(userId, name, email, password);

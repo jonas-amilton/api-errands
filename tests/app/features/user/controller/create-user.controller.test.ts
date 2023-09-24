@@ -101,7 +101,7 @@ test("Deve retornar (200) quando criado com sucesso.", async () => {
     const sut = createSut();
     const bodySut = createBodySut();
   
-    jest.spyOn(CacheRepository.prototype, "delete").mockResolvedValue();
+    jest.spyOn(CacheRepository.prototype, "set").mockResolvedValue();
   
     const result = await supertest(sut).post(route).send(bodySut);
   

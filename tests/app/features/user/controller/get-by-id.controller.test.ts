@@ -1,12 +1,8 @@
 import supertest from "supertest";
 import { UserEntity } from "../../../../../src/app/shared/database/entities/user.entity";
-import { GetUserByIdUseCase } from "../../../../../src/app/features/user/usecase/get-user-by-id.usecase";
-import express from "express";
 import { createApp } from "../../../../../src/main/configs/express.config";
-import { CacheRepository } from "../../../../../src/app/shared/database/repository/cache.repository";
 import { Database } from "../../../../../src/main/database";
 import { CacheDatabase } from "../../../../../src/main/database";
-import { UserRepository } from "../../../../../src/app/features/user/respositories/user.repository";
 
 describe("User Controller - GET BY ID", () => {
   beforeAll(async () => {

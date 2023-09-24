@@ -13,6 +13,18 @@ export class UserController {
     try {
       const { name, email, password } = req.body;
 
+      if(!name){
+        ApiResponse.notProvided(res, name)
+      }
+
+      if(!email){
+        ApiResponse.notProvided(res, email)
+      }
+
+      if(!password){
+        ApiResponse.notProvided(res, password)
+      }
+
       const useCase = new CreateUserUseCase(new UserRepository());
 
       const response = await useCase.execute(name, email, password);

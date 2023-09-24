@@ -43,12 +43,12 @@ export class UserController {
       const user = await userRepository.getUserById(userId);
 
       if (!user) {
-        return ApiResponse.notFound(res, "Usuário não encontrado");
+        return ApiResponse.notFound(res, "Usuário");
       }
 
       await userRepository.getUserById(userId);
 
-      return ApiResponse.success(res, "Usuarios listados com sucesso!", user);
+      return ApiResponse.success(res, "Usuarios listados com sucesso!");
     } catch (error: any) {
       return ApiResponse.serverError(res, error);
     }

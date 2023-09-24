@@ -5,7 +5,7 @@ import { ErrandEntity } from "../../../shared/database/entities/errand.entity";
 interface IErrandUpdateParams {
   title?: string;
   description?: string;
-  type?: string;
+  // type?: string;
 }
 
 export class ErrandRepository {
@@ -47,5 +47,23 @@ export class ErrandRepository {
     });
 
     return response;
+  }
+
+  async updateErrand(errandId: string, title?: string, description?: string) {
+    const data: IErrandUpdateParams = {};
+
+    if (title) {
+      data["title"] = title;
+    }
+
+    if (description) {
+      data["description"] = description;
+    }
+
+const response = await this._repository.update(errandId, data)
+
+return response
+
+
   }
 }

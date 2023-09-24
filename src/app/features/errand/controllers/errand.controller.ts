@@ -83,12 +83,20 @@ export class ErrandController {
 
   public async update(req: Request, res: Response) {
     try {
-      const { userId, errandId } = req.params;
+      const { errandId } = req.params;
       const { title, description } = req.body;
 
-      const usecase = new UpdateErrandUsecase(new ErrandRepository());
 
-      await usecase.execute(title, description, userId, errandId);
+      const errandRepository = new ErrandRepository();
+
+      const errand = await errandRepository.getErrandsById(errandId);
+
+      if (!errand) {
+        return ApiResponse.notFound(res, "Recado não encontrado");
+      }
+
+      await errandRepository.updateErrand(errandId,  title, description );
+
 
       return ApiResponse.success(res, "Recado atualizado com sucesso");
     } catch (error: any) {

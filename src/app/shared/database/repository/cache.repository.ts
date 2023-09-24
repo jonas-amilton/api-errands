@@ -68,7 +68,7 @@ public async update(key: ErrandModel) {
       id: key.id,
     },
     {
-      type: key.type,
+      // type: key.type,
       description: key.description,
       title: key.title,
     }

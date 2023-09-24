@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
-import { UserModel } from "../../../models/index";
-import { usersDb } from "../../../shared/database/users.db";
 import { ApiResponse } from "../../../shared/util/http-response.adapter";
-import { CreateUserUseCase, GetUsersUseCase } from "../usecase";
+import { CreateUserUseCase } from "../usecase";
 import { UserRepository } from "../respositories/user.repository";
 
 

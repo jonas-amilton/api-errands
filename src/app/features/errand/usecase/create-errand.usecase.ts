@@ -1,5 +1,3 @@
-
-
 import { ErrandModel } from "../../../models";
 import { CacheRepository } from "../../../shared/database/repository/cache.repository";
 import { UserRepository } from "../../user/respositories/user.repository";
